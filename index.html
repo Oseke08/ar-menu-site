@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>AR Меню | Выбор платформы</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const platform = localStorage.getItem('platform');
+      if (platform) {
+        window.location.href = platform + ".html";
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="platform-select">
+    <h1>Выберите вашу платформу</h1>
+    <a href="ios.html" class="btn" onclick="localStorage.setItem('platform', 'ios')">iOS (iPhone/iPad)</a>
+    <a href="android.html" class="btn" onclick="localStorage.setItem('platform', 'android')">Android</a>
+  </div>
+</body>
+</html>
