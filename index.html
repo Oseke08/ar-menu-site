@@ -1,23 +1,85 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <title>AR Меню | Выбор платформы</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const platform = localStorage.getItem('platform');
-      if (platform) {
-        window.location.href = platform + ".html";
+  <head>
+    <meta charset="UTF-8" />
+    <title>AR-Меню Ресторана</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        background: #f8f8f8;
+        padding: 20px;
       }
-    });
-  </script>
-</head>
-<body>
-  <div class="platform-select">
-    <h1>Выберите вашу платформу</h1>
-    <a href="ios.html" class="btn" onclick="localStorage.setItem('platform', 'ios')">iOS (iPhone/iPad)</a>
-    <a href="android.html" class="btn" onclick="localStorage.setItem('platform', 'android')">Android</a>
-  </div>
-</body>
+      h1 {
+        margin-bottom: 30px;
+      }
+      .buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 10px;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      model-viewer {
+        width: 100%;
+        max-width: 600px;
+        height: 500px;
+        margin: auto;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AR-Меню Ресторана</h1>
+
+    <div class="buttons">
+      <button onclick="loadModel('breakfast1')">Завтрак</button>
+      <button onclick="loadModel('soup1')">Супы</button>
+      <button onclick="loadModel('main1')">На второе</button>
+    </div>
+
+    <model-viewer
+      id="arViewer"
+      ar
+      ar-modes="scene-viewer quick-look webxr"
+      camera-controls
+      autoplay
+      alt="3D модель блюда"
+      ios-src=""
+      src=""
+      shadow-intensity="1"
+      environment-image="neutral"
+    ></model-viewer>
+
+    <script>
+      function isIOS() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      }
+
+      function loadModel(name) {
+        const viewer = document.getElementById('arViewer');
+        if (isIOS()) {
+          viewer.setAttribute('ios-src', name + 'usdz.usdz');
+          viewer.removeAttribute('src');
+        } else {
+          viewer.setAttribute('src', name + 'glb.glb');
+          viewer.removeAttribute('ios-src');
+        }
+      }
+    </script>
+  </body>
 </html>
+
